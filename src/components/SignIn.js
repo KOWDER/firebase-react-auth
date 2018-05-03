@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 
-import { auth } from "../firebase";
+import { auth } from "../firebase/index.js";
 import * as routes from "../constants/routes";
 
 // Sign Up Page
@@ -36,6 +36,7 @@ class SignInForm extends Component {
   }
   
   onSubmit = (event) => {
+    console.log(this.state);
     const { email, password, error } = this.state;
     const { history } = this.props;
 
@@ -47,7 +48,6 @@ class SignInForm extends Component {
       .catch(error => {
         this.setState({ error: error });
       });
-
     event.preventDefault();
   }
 
@@ -60,18 +60,14 @@ class SignInForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <label for="email">Email: </label>
         <input 
-          name="email"
           value={email}
           type="email"
           onChange={event => this.handleInput('email', event.target.value)}
           placeholder="your email..."
         />
         <br />
-        <label for="password">Password: </label>
         <input 
-          name="password"
           value={password}
           type="password"
           onChange={event => this.handleInput('password', event.target.value)}
