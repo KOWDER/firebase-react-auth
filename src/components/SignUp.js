@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 
+import { auth } from "../firebase";
+import * as routes from "../constants/routes";
 
 // Sign Up Page
-const SignUp = () => {
+const SignUpPage = ({ history }) => {
   return (
     <div>
       <h1>Sign Up Page</h1>
-      <SignUpForm />
+      <SignUpForm history={history} />
     </div>
   )
 };
@@ -32,7 +35,23 @@ class SignUpForm extends Component {
     this.setState({
       [propertyName]: value
     })
-  }  
+  }
+  
+  onSubmit = (event) => {
+    const { username, email, passwordOne, passwordTwo, error } = this.state;
+    const { history } = this.props;
+
+    auth.doCreateUserWithEmailAndPassword(email, passwordOne)
+      .then(authUser => {
+        this.setState(() => ({ ...INITIAL_STATE }));
+        history.push(routes.REDIRECT);
+      })
+      .catch(error => {
+        this.setState({ error: error });
+      });
+
+    event.preventDefault();
+  }
 
   render() {
     const { username, email, passwordOne, passwordTwo, error } = this.state;
@@ -44,7 +63,7 @@ class SignUpForm extends Component {
       username === "";
 
     return (
-      <form>
+      <form onSubmit={this.onSubmit}>
         <label for="username">Name: </label>
         <input 
           name="username"
@@ -81,20 +100,16 @@ class SignUpForm extends Component {
           placeholder="confirm password..."
         />
         <br />
-        <button disabled={isInvalid}>Sign Up</button>
+        <button disabled={isInvalid} type="submit">Sign Up</button>
         <br />
         { error && <p>{error.message}</p> }
       </form>
     )
   }
-
-
 }
 
 
 
+export default withRouter(SignUpPage);
 
-
-
-
-export default SignUp;
+export { SignUpForm };

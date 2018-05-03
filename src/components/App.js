@@ -7,8 +7,9 @@ import * as routes from "../constants/routes";
 
 import Navigation from "./Navigation";
 import LandingPage from "./LandingPage";
-import SignUp from "./SignUp";
-import SignIn from './SignIn';
+import SignUpPage from "./SignUp";
+import SignInPage from "./SignIn";
+import RedirectPage from "./RedirectPage";
 
 class App extends Component {
   render() {
@@ -20,8 +21,9 @@ class App extends Component {
           </header>
 
             <Route exact path={routes.LANDING} component={() => <LandingPage />} />
-            <Route exact path={routes.SIGN_UP} component={() => <SignUp />} />
-            <Route exact path={routes.SIGN_IN} component={() => <SignIn />} />
+            <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />} />
+            <Route exact path={routes.SIGN_IN} component={() => <SignInPage />} />
+            <Route exact path={routes.REDIRECT} component={() => <RedirectPage />} />
         </div>
       </Router>
     );
